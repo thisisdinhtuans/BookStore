@@ -28,7 +28,7 @@ namespace BookStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            services.AddRazorPages();
             services.AddDbContext<BookStoreContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BookStoreContext")));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -40,6 +40,7 @@ namespace BookStore
                 options.Cookie.IsEssential = true;
                 //options.IdleTimeout=TimeSpan
             });
+            services.AddDefaultIdentity<DefaultUser>().AddEntityFrameworkStores<BookStoreContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +60,7 @@ namespace BookStore
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
             app.UseEndpoints(endpoints =>
@@ -67,6 +68,7 @@ namespace BookStore
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Store}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
