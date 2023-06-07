@@ -1,4 +1,5 @@
 ﻿using BookStore.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
+    [Authorize]
     public class StoreController : Controller
     {
         private readonly BookStoreContext _context;
@@ -20,6 +22,7 @@ namespace BookStore.Controllers
         {
             return View(await _context.Books.ToListAsync());
         }
+
 
         public async Task<IActionResult> Details(int? id)
         {

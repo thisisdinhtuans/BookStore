@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using BookStore.Data;
 using BookStore.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore
 {
@@ -40,7 +41,7 @@ namespace BookStore
                 options.Cookie.IsEssential = true;
                 //options.IdleTimeout=TimeSpan
             });
-            services.AddDefaultIdentity<DefaultUser>().AddEntityFrameworkStores<BookStoreContext>();
+            services.AddDefaultIdentity<DefaultUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<BookStoreContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
