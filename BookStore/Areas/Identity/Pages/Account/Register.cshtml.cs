@@ -100,15 +100,15 @@ namespace BookStore.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new DefaultUser { 
+                var user = new DefaultUser
+                {
                     UserName = Input.Email,
-                    FirstName=Input.FirstName,
-                    LastName=Input.LastName,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
                     Email = Input.Email,
-                    Address =Input.Address,
-                    ZipCode=Input.ZipCode,
-                    City=Input.City
-                
+                    Address = Input.Address,
+                    ZipCode = Input.ZipCode,
+                    City = Input.City
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -124,7 +124,7 @@ namespace BookStore.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"Please confirm your account i wrote this just to see that it works! by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
