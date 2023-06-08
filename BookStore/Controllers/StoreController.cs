@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     public class StoreController : Controller
     {
         private readonly BookStoreContext _context;
