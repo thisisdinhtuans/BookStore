@@ -1,4 +1,5 @@
-﻿using BookStore.ViewModel;
+﻿using BookStore.Models;
+using BookStore.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,10 +12,12 @@ namespace BookStore.Controllers
     public class AdminController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<DefaultUser> _userManager;
 
-        public AdminController(RoleManager<IdentityRole> roleManager)
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<DefaultUser> userManager)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
         }
         [HttpGet]
         public IActionResult ListAllRoles()
@@ -52,6 +55,59 @@ namespace BookStore.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            if(role==null)
+            {
+                ViewData[index: "ErrorMessage"] = $"No role with id '{id}' was found";
+                return View(viewName: "Error");
+            }
+            EditRoleViewModel model = new()
+            {
+                Id = role.Id,
+                RoleName = role.Name,
+            };
+
+            foreach(var user in _userManager.Users)
+            {
+                if(await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    model.Users.Add(user.UserName);
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleViewModel model)
+        {
+            var role = await _roleManager.FindByIdAsync(model.Id);
+            if (role == null)
+            {
+                ViewData[index: "ErrorMessage"] = $"No role with id '{model.Id}' was found";
+                return View(viewName: "Error");
+            }
+            else
+            {
+                role.Name = model.RoleName;
+                var result = await _roleManager.UpdateAsync(role);
+
+                if(result.Succeeded)
+                {
+                    return RedirectToAction(actionName: "ListAllRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return View(model);
+            }
         }
     }
 }
