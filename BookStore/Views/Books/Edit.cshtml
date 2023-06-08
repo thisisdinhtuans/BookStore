@@ -1,12 +1,18 @@
-﻿@model BookStore.Models.Book
+﻿﻿@model BookStore.Models.Book
+
+
+
 
 @{
     ViewData["Title"] = "Edit";
+
+
 }
 
 <h1>Edit</h1>
 
 <h4>Book</h4>
+<a asp-action="Index" class="btn btn-warning"><i class="fa-solid fa-arrow-left"></i> Back</a>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -58,16 +64,16 @@
             </div>
         </form>
     </div>
-    <div class="col-4">
-        <img src="@Model.ImageUrl" class="w-100" />
-    </div>
 </div>
-
 
 <div>
-    <a asp-action="Index" class="btn btn-warning"><i class="fa-solid fa-arrow-left"></i> Back</a>
+
 </div>
 
+
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
 }
