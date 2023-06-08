@@ -21,7 +21,9 @@ namespace BookStore
                 var services = scope.ServiceProvider;
                 try
                 {
-                    SeedData.Initialize(services);
+                    UserRoleInitializer.InitializeAsync(services).Wait();
+
+                    //SeedData.Initialize(services);
                 }
                 catch(Exception ex)
                 {
