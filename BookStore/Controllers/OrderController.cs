@@ -21,6 +21,13 @@ namespace BookStore.Controllers
             _context = context;
             _cart = cart;
         }
+
+        // GET: Books
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Orders.ToListAsync());
+        }
+
         public IActionResult Checkout()
         {
             return View();
