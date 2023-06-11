@@ -1,6 +1,6 @@
 ﻿@model BookStore.Models.Book
 
-@{ 
+@{
     ViewData["Title"] = "Details";
 }
 
@@ -65,4 +65,11 @@
     <div class="col-4">
         <img src="@Model.ImageUrl" class="w-100" />
     </div>
+
 </div>
+
+<br>
+<br>
+<footer>
+<a asp-controller="Comment" asp-action="Create" class="btn btn-primary store-btn float-right mr-5">Add Comment</i></a>
+</footer>

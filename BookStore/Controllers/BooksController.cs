@@ -46,7 +46,7 @@ namespace BookStore.Controllers
             return View(book);
         }
 
-        // GET: Books/Create
+        //GET: Books/Create
         public IActionResult Create()
         {
             return View();

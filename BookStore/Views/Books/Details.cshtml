@@ -8,7 +8,52 @@
     <h4>Book</h4>
     <a asp-action="Index" class="btn btn-warning"><i class="fa-solid fa-arrow-left"></i> Back</a>
     <hr />
-    <dl class="row">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div>@Html.DisplayNameFor(model => model.Title)</div>  <div>@Html.DisplayFor(model => model.Title)</div>
+            </div>
+
+            <div class="form-group">
+                <div>@Html.DisplayNameFor(model => model.Description)</div>  <div>@Html.DisplayFor(model => model.Description)</div>
+            </div>
+
+            <div class="form-group">
+                <div>@Html.DisplayNameFor(model => model.Language)</div>  <div>@Html.DisplayFor(model => model.Language)</div>
+            </div>
+
+            <div class="form-group">
+                <div>@Html.DisplayNameFor(model => model.ISBN)</div>  <div>@Html.DisplayFor(model => model.ISBN)</div>
+            </div>
+
+            <div class="form-group">
+                <div>@Html.DisplayNameFor(model => model.DatePublished)</div>  <div>@Html.DisplayFor(model => model.DatePublished)</div>
+            </div>
+
+            <div class="form-group">
+                <div>@Html.DisplayNameFor(model => model.Price)</div> <div> @Html.DisplayFor(model => model.Price)</div>
+            </div>
+
+            <div class="form-group">
+                <div>@Html.DisplayNameFor(model => model.Author)</div>  <div>@Html.DisplayFor(model => model.Author)</div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <div>@Html.DisplayNameFor(model => model.ImageUrl)</div>  <div>@Html.DisplayFor(model => model.ImageUrl)</div>
+            </div>
+            <img src="@Model.ImageUrl" class="w-100" />
+            <br>
+            <hr />
+            <footer>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+            </footer>
+        </div>
+        
+    </div>
+    @*<dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -60,10 +105,7 @@
         <div class="col-4">
             <img src="@Model.ImageUrl" class="w-100" />
         </div>
-    </dl>
+    </dl>*@
 </div>
+<br>
 
-<footer>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-    <br>
-</footer>
