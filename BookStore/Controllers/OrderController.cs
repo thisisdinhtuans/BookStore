@@ -1,6 +1,7 @@
 ﻿using BookStore.Data;
 using BookStore.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,11 @@ namespace BookStore.Controllers
     {
         private readonly BookStoreContext _context;
         private readonly Cart _cart;
+        private readonly UserManager<DefaultUser> _userManager;
 
-        public OrderController(BookStoreContext context, Cart cart)
+        public OrderController(UserManager<DefaultUser> userManager, BookStoreContext context, Cart cart)
         {
+            _userManager = userManager;
             _context = context;
             _cart = cart;
         }
@@ -26,19 +29,19 @@ namespace BookStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout(Order order)
+        public async Task<IActionResult> Checkout(Order order)
         {
             var cartItems = _cart.GetAllCartItems();
             _cart.CartItems = cartItems;
 
-            if(_cart.CartItems.Count==0)
+            if (_cart.CartItems.Count == 0)
             {
-                ModelState.AddModelError(key : "", errorMessage: "Cart is emty, please add a book first");
+                ModelState.AddModelError(key: "", errorMessage: "Cart is emty, please add a book first");
             }
 
             if (ModelState.IsValid)
             {
-                CreateOrder(order);
+                await CreateOrder(order);
                 _cart.ClearCart();
                 return View(viewName: "CheckoutComplete", order);
             }
@@ -51,11 +54,20 @@ namespace BookStore.Controllers
             return View(order);
         }
 
-        public void CreateOrder(Order order)
+        public async Task CreateOrder(Order order)
         {
+            DefaultUser user = await _userManager.GetUserAsync(User);
+
+            // Kiểm tra xem người dùng có tồn tại không
+            if (user == null)
+            {
+                // Xử lý lỗi, người dùng không được tìm thấy hoặc không đăng nhập
+                BadRequest("User not found or not logged in.");
+            }
             order.OrderPlaced = DateTime.Now;
             var cartItems = _cart.CartItems;
-            foreach(var item in cartItems)
+            order.UserId = user.Id;
+            foreach (var item in cartItems)
             {
                 var orderItem = new OrderItem()
                 {
