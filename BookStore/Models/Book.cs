@@ -29,5 +29,6 @@ namespace BookStore.Models
         public string Author { get; set; }
         [Display(Name ="Image URL")]
         public string ImageUrl { get; set; }
+        public List<Review> Reviews { get; set; } = new List<Review>();
     }
 }

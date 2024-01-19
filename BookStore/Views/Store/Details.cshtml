@@ -66,3 +66,42 @@
         <img src="@Model.ImageUrl" class="w-100" />
     </div>
 </div>
+<div>
+    <h4>Reviews</h4>
+    <hr />
+    @if (Model.Reviews.Any())
+    {
+        foreach (var review in Model.Reviews)
+        {
+            <div>
+                <p>User: @review.UserId</p>
+                <p>@review.Comment</p>
+                <p>Rating: @review.Rating</p>
+                <p>Created At: @review.CreatedAt</p>
+                <hr />
+            </div>
+        }
+    }
+    else
+    {
+        <p>No reviews available.</p>
+    }
+
+</div>
+
+<div>
+    <h4>Add a Review</h4>
+    <hr />
+    <form asp-controller="Review" asp-action="AddReview" method="post">
+        <input type="hidden" name="bookId" value="@Model.Id" />
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea name="comment" class="form-control" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating:</label>
+            <input type="number" name="rating" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-success">Submit Review</button>
+    </form>
+</div>

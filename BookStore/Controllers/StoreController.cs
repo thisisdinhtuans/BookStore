@@ -32,6 +32,7 @@ namespace BookStore.Controllers
             }
 
             var book = await _context.Books
+                .Include(b=>b.Reviews)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
