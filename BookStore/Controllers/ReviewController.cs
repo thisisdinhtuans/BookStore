@@ -45,6 +45,7 @@ namespace BookStore.Controllers
                 Comment = comment,
                 Rating = rating,
                 CreatedAt = DateTime.Now,
+                UserName = user.LastName,
             };
 
             _context.Reviews.Add(review);
