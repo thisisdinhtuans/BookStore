@@ -67,6 +67,16 @@ namespace BookStore.Controllers
 
             return View(orderitem);
         }
+        public async Task<IActionResult> GetAllOrders()
+        {
+            IEnumerable<Order> orders = await _context.Orders
+                .ToListAsync();
+            if (orders == null)
+            {
+                BadRequest("không có đơn hàng nào cả");
+            }
+            return View(viewName: "GetOrder", orders);
+        }
         //[HttpGet]
         //public async Task<IActionResult> GetOrderItem()
         //{
